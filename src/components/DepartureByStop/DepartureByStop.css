@@ -1,0 +1,13 @@
+.departure-by-stop {
+    margin-top: 5rem;
+}
+
+.stop-input {
+    width: 40%;
+    height: 4rem;
+    border: 1px solid #dcd3d3;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    padding-left: 15px;
+    font-size: 2rem;
+}

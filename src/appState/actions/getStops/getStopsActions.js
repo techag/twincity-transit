@@ -1,0 +1,3 @@
+export const GET_STOPS_START= 'GET_STOPS_START';
+export const GET_STOPS_SUCCESS = 'GET_STOPS_SUCCESS';
+export const GET_STOPS_FAIL = 'GET_STOPS_FAIL';
