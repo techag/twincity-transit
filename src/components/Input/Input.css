@@ -1,3 +1,15 @@
 .input-wrapper {
     margin-top: 2rem;
 }
+.search-icon {
+    position: relative;
+    bottom: 0rem;
+    z-index: 3;
+    display: inline-block;
+    width: 3rem;
+    left: -4rem;
+    cursor: pointer;
+}
+.search-icon-img {
+    height: 2.5rem;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import './Input.css';
+import searchImg from '../../assets/images/search-gray.svg';
 
 const Input = (props) => {
 
@@ -19,7 +20,6 @@ const Input = (props) => {
                     placeholder={props.placeholder}
                 />
             );
-
             break;
 
         case 'dropdown':
@@ -33,13 +33,31 @@ const Input = (props) => {
                     ))}
                 </select>
             );
+            break;
+
+        case 'searchInput':
+            inputElement = (
+                <>
+                    <input
+                        name={props.name}
+                        className={props.classes.join(' ')}
+                        defaultValue={props.value}
+                        autoComplete="false"
+                        placeholder={props.placeholder}
+                        onChange={e => onChangeHandler(e)}
+                    />
+                    <span className="search-icon" onClick={e => onClickHandler(e)}>
+                        <img alt="" className="search-icon-img" src={searchImg}/>
+                    </span>
+                </>
+            );
 
     }
-  return (
-      <div className="input-wrapper">
-          {inputElement}
-      </div>
-  )
+    return (
+        <div className="input-wrapper">
+            {inputElement}
+        </div>
+    )
 };
 
 export default Input;

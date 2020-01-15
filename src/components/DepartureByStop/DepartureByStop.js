@@ -7,10 +7,13 @@ const DepartureByStop = (props) => {
         <div className="departure-by-stop">
             <div className="enter-stop-wrapper">
                 <Input
-                    inputType="text"
+                    inputType="searchInput"
                     name="stop"
                     classes={['stop-input']}
-                    placeholder="Enter Stop #Number"/>
+                    placeholder="Enter Stop #Number"
+                    clickHandler={props.searchStop}
+                    changeHandler={props.onInputChange}
+                />
             </div>
         </div>
     )

@@ -15,7 +15,8 @@ class Departures extends Component {
         searchByStop: false,
         selectedRoute:'',
         selectedDirection: '',
-        selectedStop:''
+        selectedStop:'',
+        searchInputValue:''
     };
 
     /**
@@ -62,38 +63,41 @@ class Departures extends Component {
      */
     onStopChange = (e) =>{
         this.setState({selectedStop: e.target.value});
-        this.props.getDipartures(this.state.selectedRoute,this.state.selectedDirection,e.target.value);
+        this.props.getDepartures(this.state.selectedRoute,this.state.selectedDirection,e.target.value);
     };
 
+    searchStop = e => {
+        console.log(this.state.searchInputValue);
+        this.props.searchStop(this.state.searchInputValue);
+    };
+
+    onInputChange = e => {
+        this.setState({searchInputValue: e.target.value});
+    };
 
     render() {
         return (
             <div className="departures">
                 <h1>Real-time Departures</h1>
                 <div className="departure-options row">
-                    <span className={this.state.searchByRoute ? 'by-route selected-opt' : 'by-route'} onClick={e => {
-                        this.toggleRouteStop('byRoute')
-                    }}>By Route</span>
-
-                    <span className={this.state.searchByStop ? 'by-stop selected-opt' : 'by-stop'} onClick={e => {
-                        this.toggleRouteStop('byStop')
-                    }}>By Stop</span>
+                    <span className={this.state.searchByRoute ? 'by-route selected-opt' : 'by-route'} onClick={e => {this.toggleRouteStop('byRoute')}}>By Route</span>
+                    <span className={this.state.searchByStop ? 'by-stop selected-opt' : 'by-stop'} onClick={e => {this.toggleRouteStop('byStop')}}>By Stop</span>
 
                 </div>
                 {this.state.searchByRoute &&
                 // Common component to load departure search by route
-                <DepartureByRoute
-                    routes={createOptions(this.props.routes, 'RouteId', 'Description')}
-                    directions={createOptions(this.props.directions, 'DirectionId', 'DirectionName')}
-                    stops={createOptions(this.props.stops, 'PlaceCode', 'Description')}
-                    onRouteChange={this.onRouteChange}
-                    onDirectionChange={this.onDirectionChange}
-                    onStopChange={this.onStopChange}
-                />
+                    <DepartureByRoute
+                        routes={createOptions(this.props.routes, 'RouteId', 'Description')}
+                        directions={createOptions(this.props.directions, 'DirectionId', 'DirectionName')}
+                        stops={createOptions(this.props.stops, 'PlaceCode', 'Description')}
+                        onRouteChange={this.onRouteChange}
+                        onDirectionChange={this.onDirectionChange}
+                        onStopChange={this.onStopChange}
+                    />
                 }
                 {this.state.searchByStop &&
                 //Component to search by stop
-                <DepartureByStop/>
+                    <DepartureByStop searchStop={this.searchStop} onInputChange={this.onInputChange}/>
                 }
             </div>
         );
@@ -105,7 +109,8 @@ const mapStateToProps = state => {
     return {
         routes: state.departures.routes,
         directions: state.departures.directions,
-        stops: state.departures.stops
+        stops: state.departures.stops,
+        searchedStop: state.departures.searchedStop
     }
 };
 
@@ -114,7 +119,8 @@ const mapDispatchToProps = dispatch => {
         getRoutes: () => dispatch(action.getRoutes()),
         getDirections: routeId => dispatch(action.getDirections(routeId)),
         getStops: (routeId, directionId) => dispatch(action.getStops(routeId,directionId)),
-        getDipartures: (routeId, directionId, stopId) => dispatch(action.getDepartures(routeId,directionId,stopId))
+        getDepartures: (routeId, directionId, stopId) => dispatch(action.getDepartures(routeId,directionId,stopId)),
+        searchStop: stopId => dispatch(action.searchStop(stopId))
     }
 };
 

@@ -39,5 +39,4 @@ export const getStops = (routeId, directionId) => {
             })
             .catch(err => dispatch(getStopsFail(err)))
     }
-
 };
