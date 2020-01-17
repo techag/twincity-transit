@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Redirect, withRouter} from 'react-router'
 import './Departures.css';
 import DepartureByRoute from "../../components/DeparturesByRoute/DeparturesByRoute";
 import DepartureByStop from "../../components/DepartureByStop/DepartureByStop";
 import * as action from '../../appState'
 import {connect} from "react-redux";
 import {createOptions} from "../../apiGetway/utility";
+import DepartureStatuses from "../../components/DepartureStatuses/DepartureStatuses";
 
 class Departures extends Component {
 
@@ -16,7 +16,10 @@ class Departures extends Component {
         selectedRoute:'',
         selectedDirection: '',
         selectedStop:'',
-        searchInputValue:''
+        selectedStopName:'',
+        searchInputValue:'',
+        showDepartures: true,
+        autoLoadInterval: null
     };
 
     /**
@@ -31,10 +34,14 @@ class Departures extends Component {
      * @param option
      */
     toggleRouteStop = (option) => {
+        this.props.initialState(); // On tab change, reset the state to initial state
+        this.disableDeparturesAutoLoad(); // Also disable the departures auto load
+
         if (option === 'byRoute') {
-            this.setState(prevState => ({searchByRoute: true, searchByStop: false}));
+            this.props.getRoutes(); // Fetch fresh routes again on tab select
+            this.setState(prevState => ({searchByRoute: true, searchByStop: false, showDepartures: true}));
         } else {
-            this.setState(prevState => ({searchByRoute: false, searchByStop: true}));
+            this.setState(prevState => ({searchByRoute: false, searchByStop: true, showDepartures: false}));
         }
     };
 
@@ -43,9 +50,9 @@ class Departures extends Component {
      * @param e
      */
     onRouteChange = (e) => {
-        console.log(e.target.value)
-        this.setState({selectedRoute: e.target.value});
-        this.props.getDirections(e.target.value);
+        this.setState({selectedRoute: e.target.value}, () => {
+            this.props.getDirections(this.state.selectedRoute)
+        });
     };
 
     /**
@@ -53,8 +60,13 @@ class Departures extends Component {
      * @param e
      */
     onDirectionChange = (e) =>{
-        this.setState({selectedDirection: e.target.value});
-        this.props.getStops(this.state.selectedRoute,e.target.value);
+        this.setState({selectedDirection: e.target.value}, () => {
+            this.props.getStops(this.state.selectedRoute,this.state.selectedDirection);
+            if(this.state.selectedStop) {
+                this.disableDeparturesAutoLoad();
+            }
+        });
+
     };
 
     /**
@@ -62,15 +74,46 @@ class Departures extends Component {
      * @param e
      */
     onStopChange = (e) =>{
-        this.setState({selectedStop: e.target.value});
-        this.props.getDepartures(this.state.selectedRoute,this.state.selectedDirection,e.target.value);
+        this.setState({selectedStop: e.target.value, selectedStopName: e.target.options[e.target.selectedIndex].innerHTML}, () => {
+            this.props.getDepartures(this.state.selectedRoute,this.state.selectedDirection,this.state.selectedStop);
+            this.enableDeparturesAutoLoad();
+        });
     };
 
+    /**
+     * Auto load the current departure status for given stop
+     */
+    enableDeparturesAutoLoad = () => {
+        if (this.state.selectedRoute && this.state.selectedDirection && this.state.selectedStop) {
+            const setTimer = window.setInterval(() => {
+                this.props.getDepartures(this.state.selectedRoute,this.state.selectedDirection, this.state.selectedStop);
+            }, 5000);
+            this.setState({ autoLoadInterval: setTimer })
+        }
+
+    };
+
+    /**
+     * Disable the departures auto load
+     */
+   disableDeparturesAutoLoad = () => {
+       console.log("Auto load finished");
+        const clearTimer = window.clearInterval(this.state.autoLoadInterval);
+        this.setState({ autoLoadInterval: clearTimer })
+    };
+
+    /**
+     * Search Stops by stop number
+     * @param e
+     */
     searchStop = e => {
-        console.log(this.state.searchInputValue);
         this.props.searchStop(this.state.searchInputValue);
     };
 
+    /**
+     * Set the search input value to state
+     * @param e
+     */
     onInputChange = e => {
         this.setState({searchInputValue: e.target.value});
     };
@@ -99,6 +142,14 @@ class Departures extends Component {
                 //Component to search by stop
                     <DepartureByStop searchStop={this.searchStop} onInputChange={this.onInputChange}/>
                 }
+
+                {this.props.stopDepartures && this.state.showDepartures  &&
+                    <DepartureStatuses
+                        departures={this.props.stopDepartures}
+                        selectedStop={this.state.selectedStop}
+                        selectedStopName={this.state.selectedStopName}
+                    />
+                }
             </div>
         );
     }
@@ -110,7 +161,8 @@ const mapStateToProps = state => {
         routes: state.departures.routes,
         directions: state.departures.directions,
         stops: state.departures.stops,
-        searchedStop: state.departures.searchedStop
+        searchedStop: state.departures.searchedStop,
+        stopDepartures: state.departures.stopDepartures
     }
 };
 
@@ -120,7 +172,8 @@ const mapDispatchToProps = dispatch => {
         getDirections: routeId => dispatch(action.getDirections(routeId)),
         getStops: (routeId, directionId) => dispatch(action.getStops(routeId,directionId)),
         getDepartures: (routeId, directionId, stopId) => dispatch(action.getDepartures(routeId,directionId,stopId)),
-        searchStop: stopId => dispatch(action.searchStop(stopId))
+        searchStop: stopId => dispatch(action.searchStop(stopId)),
+        initialState: () => dispatch(action.initialState())
     }
 };
 

@@ -5,7 +5,7 @@ import Input from "../Input/Input";
 const DepartureByRoute = (props) => {
     return(
         <div className="departure-by-route row">
-            <div className="select-box-wrapper">
+            <div className="select-box-wrapper select-box-visible">
                 <Input
                     inputType="dropdown"
                     name="route"
@@ -15,7 +15,7 @@ const DepartureByRoute = (props) => {
                     changeHandler={props.onRouteChange}
                 />
             </div>
-            <div className="select-box-wrapper">
+            <div className={props.directions.length > 0 ? 'select-box-wrapper select-box-visible' : 'select-box-wrapper'}>
                 <Input
                     inputType="dropdown"
                     name="direction"
@@ -25,7 +25,7 @@ const DepartureByRoute = (props) => {
                     changeHandler={props.onDirectionChange}
                 />
             </div>
-            <div className="select-box-wrapper">
+            <div className={props.stops.length > 0  ? 'select-box-wrapper select-box-visible' : 'select-box-wrapper'}>
                 <Input
                     inputType="dropdown"
                     name="stop"

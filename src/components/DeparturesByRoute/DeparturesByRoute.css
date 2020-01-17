@@ -3,7 +3,7 @@
 }
 
 .select-route, .select-direction, .select-stop {
-    width: 40%;
+    width: 35%;
     height: 4rem;
     border: 1px solid #dcd3d3;
     border-radius: 3px;
@@ -11,4 +11,14 @@
     -webkit-appearance: none;
     padding-left: 15px;
     font-size: 2rem;
+}
+
+.select-box-wrapper {
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.select-box-visible {
+    visibility: visible;
+    opacity: 1;
 }

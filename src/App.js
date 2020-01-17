@@ -9,12 +9,12 @@ import HeroImage from "./components/HeroImage/HeroImage";
 function App() {
   return (
       <div className="App container-fluid">
-          <Header/>
-          <HeroImage/>
-        <Switch>
-          <Route path={'/'} exact component={Departures} />
-          <Route path={'/departures'} exact component={Departures} />
-        </Switch>
+            <Header/>
+            <HeroImage/>
+            <Switch>
+              <Route path={'/'} exact component={Departures} />
+              <Route path={'/departures'} exact component={Departures} />
+            </Switch>
       </div>
   );
 }

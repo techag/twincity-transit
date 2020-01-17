@@ -35,3 +35,10 @@ export const getRoutes = () => {
           .catch(err => dispatch(getRoutesFail(err)))
   }
 };
+
+
+export const initialState = () => {
+    return dispatch => {
+        dispatch(getRoutesStart());
+    }
+};
