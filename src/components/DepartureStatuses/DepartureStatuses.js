@@ -5,8 +5,9 @@ const DepartureStatuses = props => {
     //Add Auto scroll to view when departures appears on UI
     const departuresRef = useRef(null);
     const scrollToBottom = () => {
-        departuresRef.current.scrollIntoView({ behavior: "smooth" });
-    };
+            departuresRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+        ;
     useEffect(scrollToBottom, [props.departures]);
 
     return (
@@ -15,7 +16,7 @@ const DepartureStatuses = props => {
             <p>{props.selectedStopName} - Stop {props.selectedStop}</p>
             {props.departures.length > 0 &&
                 <div
-                    className={props.departures.length > 5 ? 'departures-list departures-list-scroll' : 'departures-list'}>
+                    className={props.departures.length > 5 ? 'departures-list-scroll' : 'departures-list'}>
                     {props.departures.map((departure, i) => {
                         return (
                             <div className="stop-details row-cols-5" key={i}>
@@ -23,7 +24,7 @@ const DepartureStatuses = props => {
                                 <div className="col-5 route-description">
                                     {departure.Description}
                                 </div>
-                                <div className="col-4 current-status">
+                                <div className={departure.Actual ? "col-4 current-status active-route" : "col-4 current-status"}>
                                     {departure.DepartureText}
                                 </div>
                             </div>
@@ -36,7 +37,6 @@ const DepartureStatuses = props => {
                     Currently there are not departures available for this route.
                 </span>
             }
-
         </div>
     )
 };

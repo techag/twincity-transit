@@ -6,6 +6,7 @@ import * as action from '../../appState'
 import {connect} from "react-redux";
 import {createOptions} from "../../apiGetway/utility";
 import DepartureStatuses from "../../components/DepartureStatuses/DepartureStatuses";
+import Map from "../../components/Map/Map";
 
 class Departures extends Component {
 
@@ -19,7 +20,8 @@ class Departures extends Component {
         selectedStopName:'',
         searchInputValue:'',
         showDepartures: true,
-        autoLoadInterval: null
+        autoLoadInterval: null,
+        isMarkdown: true,
     };
 
     /**
@@ -88,7 +90,7 @@ class Departures extends Component {
             const setTimer = window.setInterval(() => {
                 this.props.getDepartures(this.state.selectedRoute,this.state.selectedDirection, this.state.selectedStop);
             }, 5000);
-            this.setState({ autoLoadInterval: setTimer })
+            this.setState({ autoLoadInterval: setTimer, scrollToBottom: false })
         }
 
     };
@@ -108,6 +110,7 @@ class Departures extends Component {
      */
     searchStop = e => {
         this.props.searchStop(this.state.searchInputValue);
+        this.setState({showDepartures: true, selectedStop: e.target.value})
     };
 
     /**
@@ -140,20 +143,30 @@ class Departures extends Component {
                 }
                 {this.state.searchByStop &&
                 //Component to search by stop
-                    <DepartureByStop searchStop={this.searchStop} onInputChange={this.onInputChange}/>
+                    <DepartureByStop searchStop={this.searchStop} onInputChange={this.onInputChange} error={this.props.error}/>
                 }
 
                 {this.props.stopDepartures && this.state.showDepartures  &&
-                    <DepartureStatuses
-                        departures={this.props.stopDepartures}
-                        selectedStop={this.state.selectedStop}
-                        selectedStopName={this.state.selectedStopName}
-                    />
+                    <>
+                        <DepartureStatuses
+                            departures={this.props.stopDepartures}
+                            selectedStop={this.state.selectedStop}
+                            selectedStopName={this.state.selectedStopName}
+                        />
+                        {/*<Map*/}
+                        {/*    isMarkdown*/}
+                        {/*    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhOvaHlI9NiyOjd6V77SFq9etw1ImheF8"*/}
+                        {/*    loadingElement={<div className="google-map-wrapper" />}*/}
+                        {/*    containerElement={<div className="google-map-container"/>}*/}
+                        {/*    mapElement={<div className="google-map-element" />}*/}
+                        {/*    lat={this.props.selectedStopDetails.Latitude}*/}
+                        {/*    lng={this.props.selectedStopDetails.Longitude}*/}
+                        {/*/>*/}
+                    </>
                 }
             </div>
         );
     }
-
 }
 
 const mapStateToProps = state => {
@@ -162,7 +175,9 @@ const mapStateToProps = state => {
         directions: state.departures.directions,
         stops: state.departures.stops,
         searchedStop: state.departures.searchedStop,
-        stopDepartures: state.departures.stopDepartures
+        stopDepartures: state.departures.stopDepartures,
+        selectedStopDetails: state.departures.selectedStopDetails,
+        error: state.departures.err
     }
 };
 

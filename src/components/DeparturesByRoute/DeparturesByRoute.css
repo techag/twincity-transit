@@ -1,5 +1,5 @@
 .departure-by-route {
-    margin-top: 5rem;
+    margin-top: 3rem;
 }
 
 .select-route, .select-direction, .select-stop {
@@ -14,11 +14,13 @@
 }
 
 .select-box-wrapper {
+    display: none;
     opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear;
 }
 
 .select-box-visible {
+    display: block;
     visibility: visible;
     opacity: 1;
+    transition: all 1s, opacity 0.5s linear;
 }

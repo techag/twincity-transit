@@ -20,19 +20,6 @@
     border-color: #006532;
     outline: 0;
 }
-
-.selected-opt::after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 0;
-    position: absolute;
-    border-top: 8px solid #006532;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    bottom: 26.5rem;
-}
-
 .by-route.selected-opt::after {
     left: 42.5%;
 }
@@ -40,3 +27,13 @@
 .by-stop.selected-opt::after {
     left: 56.5%;
 }
+
+.google-map-wrapper .google-map-container {
+     height: 100% !important;
+
+ }
+.google-map-element {
+    height: 600px;
+    margin: 15rem;
+}
+

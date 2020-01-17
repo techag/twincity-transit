@@ -15,6 +15,11 @@ const DepartureByStop = (props) => {
                     changeHandler={props.onInputChange}
                 />
             </div>
+            {props.error &&
+            <span className="no-departures">
+                    Invalid stop id! Please enter the valid stop id.
+                </span>
+            }
         </div>
     )
 };

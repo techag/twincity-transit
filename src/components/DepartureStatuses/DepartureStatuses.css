@@ -21,7 +21,7 @@
     height: 5rem;
     background-color: #fff;
     margin: -1px 10px;
-    border-top: 1px solid #e0dbdb;
+    border-bottom: 2px solid #e0dbdb;
 }
 
 .route-name {
@@ -50,10 +50,11 @@
 }
 
 .departures-list {
-    height: 40rem;
+    height: 20rem;
 }
 
 .departures-list-scroll {
+    height: 40rem;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }::-webkit-scrollbar {
@@ -84,13 +85,9 @@
     color: #333;
 }
 
-.glow {
-    font-size: 80px;
-    color: #fff;
-    text-align: center;
-    -webkit-animation: glow 1s ease-in-out infinite alternate;
-    -moz-animation: glow 1s ease-in-out infinite alternate;
-    animation: glow 1s ease-in-out infinite alternate;
+.active-route {
+    color: #006531;
+    font-weight: 900;
 }
 
 @-webkit-keyframes glow {
