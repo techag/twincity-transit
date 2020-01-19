@@ -12,6 +12,7 @@ const Input = (props) => {
         case 'text':
             inputElement = (
                 <input
+                    id={props.id || ''}
                     name={props.name}
                     className={props.classes.join(' ')}
                     onClick={e => onClickHandler(e)}
@@ -24,7 +25,7 @@ const Input = (props) => {
 
         case 'dropdown':
             inputElement = (
-                <select name={props.name} className={props.classes.join(' ')} onChange={e => onChangeHandler(e)}>
+                <select name={props.name} className={props.classes.join(' ')} onChange={e => onChangeHandler(e)} id={props.id || ''}>
                     <option value="">{props.defaultOption}</option>
                     {props.options.map((option, i) => (
                         <option value={option.key} key={i}>
@@ -39,6 +40,7 @@ const Input = (props) => {
             inputElement = (
                 <>
                     <input
+                        id={props.id || ''}
                         name={props.name}
                         className={props.classes.join(' ')}
                         defaultValue={props.value}

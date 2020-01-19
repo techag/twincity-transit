@@ -33,10 +33,7 @@ export const getStops = (routeId, directionId) => {
         dispatch(getStopsStart());
 
         return invokeApiCall(`${BASE_URL}/stops/${routeId}/${directionId}`, 'GET', null)
-            .then(res => {
-                console.log(res)
-                dispatch(getStopsSuccess(res))
-            })
+            .then(res => dispatch(getStopsSuccess(res)))
             .catch(err => dispatch(getStopsFail(err)))
     }
 };

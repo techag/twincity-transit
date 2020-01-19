@@ -7,6 +7,7 @@ const DepartureByStop = (props) => {
         <div className="departure-by-stop">
             <div className="enter-stop-wrapper">
                 <Input
+                    id="search-by-stop"
                     inputType="searchInput"
                     name="stop"
                     classes={['stop-input']}

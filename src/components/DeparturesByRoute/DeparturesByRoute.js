@@ -7,6 +7,7 @@ const DepartureByRoute = (props) => {
         <div className="departure-by-route row">
             <div className="select-box-wrapper select-box-visible">
                 <Input
+                    id="select-route"
                     inputType="dropdown"
                     name="route"
                     defaultOption="Select Route"
@@ -17,6 +18,7 @@ const DepartureByRoute = (props) => {
             </div>
             <div className={props.directions.length > 0 ? 'select-box-wrapper select-box-visible' : 'select-box-wrapper'}>
                 <Input
+                    id="select-direction"
                     inputType="dropdown"
                     name="direction"
                     defaultOption="Select Direction"
@@ -27,6 +29,7 @@ const DepartureByRoute = (props) => {
             </div>
             <div className={props.stops.length > 0  ? 'select-box-wrapper select-box-visible' : 'select-box-wrapper'}>
                 <Input
+                    id="select-stop"
                     inputType="dropdown"
                     name="stop"
                     defaultOption="Select Stop"
