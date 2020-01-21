@@ -52,7 +52,7 @@ class Departures extends Component {
      * @param e
      */
     onRouteChange = (e) => {
-        this.setState({selectedRoute: e.target.value}, () => {
+        this.setState({selectedRoute: e.target.value, selectedDirection:'', selectedStop:''}, () => {
             this.props.getDirections(this.state.selectedRoute)
         });
     };
@@ -62,7 +62,7 @@ class Departures extends Component {
      * @param e
      */
     onDirectionChange = (e) =>{
-        this.setState({selectedDirection: e.target.value}, () => {
+        this.setState({selectedDirection: e.target.value, selectedStop:''}, () => {
             this.props.getStops(this.state.selectedRoute,this.state.selectedDirection);
             if(this.state.selectedStop) {
                 this.disableDeparturesAutoLoad();
@@ -139,6 +139,9 @@ class Departures extends Component {
                         onRouteChange={this.onRouteChange}
                         onDirectionChange={this.onDirectionChange}
                         onStopChange={this.onStopChange}
+                        selectedStop={this.state.selectedStop}
+                        selectedRoute={this.state.selectedRoute}
+                        selectedDirection={this.state.selectedDirection}
                     />
                 }
                 {this.state.searchByStop &&

@@ -22,9 +22,15 @@ context('Departures by Route', () => {
             .get('#select-stop')
             .select('MAAM')
             .should('have.value', 'MAAM')
+            .get('#select-direction')
+            .select('1')
+            .should('have.value', '1')
+            .get('#select-stop')
+            .should('have.value', '')
             .get('.departures-status')
             .contains('Departures')
             .get('#root')
             .screenshot('Search-By-Route')
     });
 });
+

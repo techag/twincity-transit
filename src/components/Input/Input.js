@@ -25,7 +25,7 @@ const Input = (props) => {
 
         case 'dropdown':
             inputElement = (
-                <select name={props.name} className={props.classes.join(' ')} onChange={e => onChangeHandler(e)} id={props.id || ''}>
+                <select name={props.name} className={props.classes.join(' ')} onChange={e => onChangeHandler(e)} id={props.id || ''} value={props.selected}>
                     <option value="">{props.defaultOption}</option>
                     {props.options.map((option, i) => (
                         <option value={option.key} key={i}>

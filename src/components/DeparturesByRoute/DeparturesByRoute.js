@@ -14,6 +14,7 @@ const DepartureByRoute = (props) => {
                     classes={['select-route']}
                     options={props.routes}
                     changeHandler={props.onRouteChange}
+                    selected={props.selectedRoute}
                 />
             </div>
             <div className={props.directions.length > 0 ? 'select-box-wrapper select-box-visible' : 'select-box-wrapper'}>
@@ -25,6 +26,7 @@ const DepartureByRoute = (props) => {
                     classes={['select-stop']}
                     options={props.directions}
                     changeHandler={props.onDirectionChange}
+                    selected={props.selectedDirection}
                 />
             </div>
             <div className={props.stops.length > 0  ? 'select-box-wrapper select-box-visible' : 'select-box-wrapper'}>
@@ -36,6 +38,7 @@ const DepartureByRoute = (props) => {
                     classes={['select-stop']}
                     options={props.stops}
                     changeHandler={props.onStopChange}
+                    selected={props.selectedStop}
                 />
             </div>
         </div>
